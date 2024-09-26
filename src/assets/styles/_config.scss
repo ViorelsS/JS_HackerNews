@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+$soft-white: #f2f3f6;
+$soft-gray: #e8eaef;
+$box-shadow: 3px 9px 9px 0px rgba(199, 199, 199, 0.45);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: $soft-white;
+}

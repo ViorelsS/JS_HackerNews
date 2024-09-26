@@ -1,14 +1,19 @@
 import axios from 'axios';
 
-function fetchNews(count) {
-    axios
+const fetchNews = async (count) => {
+    return await axios
         .get('https://hacker-news.firebaseio.com/v0/newstories.json')
-        .then((res) => {
-            document.querySelector('#news').innerHTML = res.data.slice(
-                count,
-                count + 5
-            );
-        });
-}
+        .then((res) => res.data.slice(count ? count : 0, count ? count : 10))
+        .then((res) => fetchSingleStory(res));
+};
+
+const fetchSingleStory = async (stories) => {
+    return stories.map(
+        async (id) =>
+            await axios
+                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json `)
+                .then((res) => console.log(res))
+    );
+};
 
 export default fetchNews;

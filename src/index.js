@@ -1,5 +1,5 @@
 import fetchNews from './fetchNews';
-import './styles/main.scss';
+import './assets/styles/main.scss';
 import icon from './assets/news.png';
 
 const newsImg = document.querySelector('#newsImg');
@@ -9,4 +9,4 @@ const newsBtn = document.getElementById('newsBtn');
 
 newsBtn.addEventListener('click', () => fetchNews(Math.random() * 100));
 
-fetchNews(0);
+fetchNews().then((res) => console.log(res));
