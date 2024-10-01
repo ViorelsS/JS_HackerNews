@@ -9,10 +9,9 @@ class News {
     }
 
     async loadInitialStoryIds() {
-        const response = await axios.get(
-            'https://hacker-news.firebaseio.com/v0/newstories.json'
-        );
-        this.storyIds = response.data.slice(0, 500);
+        return await axios
+            .get('https://hacker-news.firebaseio.com/v0/newstories.json')
+            .then((res) => (this.storyIds = res.data));
     }
 
     async displayNews() {
@@ -28,10 +27,9 @@ class News {
     async fetchNews(start, limit) {
         const storyIds = this.storyIds.slice(start, start + limit);
         const storyPromises = storyIds.map(async (id) => {
-            const storyResponse = await axios.get(
-                `https://hacker-news.firebaseio.com/v0/item/${id}.json`
-            );
-            return storyResponse.data;
+            return await axios
+                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+                .then((res) => res.data);
         });
         return Promise.all(storyPromises);
     }
