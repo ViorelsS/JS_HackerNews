@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const fetchNews = async () => {
+const fetchNews = async (start = 0, limit = 10) => {
     const response = await axios.get(
         'https://hacker-news.firebaseio.com/v0/newstories.json'
     );
-    const storyIds = response.data.slice(0, 10);
+    const storyIds = response.data.slice(start, start + limit);
     const storyPromises = storyIds.map(async (id) => {
         const storyResponse = await axios.get(
             `https://hacker-news.firebaseio.com/v0/item/${id}.json`

@@ -12,4 +12,9 @@ newsBtn.addEventListener('click', async () => {
     await news.displayNews();
 });
 
-news.displayNews();
+async function initializeNews() {
+    await news.loadInitialStoryIds();
+    await news.displayNews();
+}
+
+initializeNews();
