@@ -1,14 +1,12 @@
 @import 'config';
 
-$soft-white: #fefefe;
-$box-shadow: 3px 9px 9px 0px rgba(199, 199, 199, 0.45);
-
 body {
     height: 100vh;
     font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: $soft-white;
 }
 
 h1 {
@@ -16,57 +14,77 @@ h1 {
     font-weight: bold;
 }
 
-.news-item {
+.news {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    background-color: $soft-white;
-    padding: 20px;
-    border-radius: 16px;
-    max-width: 400px;
-    box-shadow: $box-shadow;
-    margin: 20px 0px;
+    gap: 12px;
 
-    & .news-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding-bottom: 12px;
-    }
-
-    & .news-descendants {
-        color: green;
-        padding: 4px 8px;
-        border-radius: 8px;
-        border: 1px solid green;
-    }
-
-    & .news-type {
-        color: green;
-        padding: 4px 8px;
-        border-radius: 8px;
-        border: 1px solid green;
-    }
-
-    & .news-title {
-        font-weight: bold;
-        font-size: 1.2rem;
-        color: black;
-    }
-
-    & .news-score {
+    & .news-item {
         background: white;
-        border: 1px solid blue;
-        padding: 4px 12px;
-        border-radius: 8px;
-    }
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px;
+        border-radius: 16px;
+        max-width: 400px;
+        box-shadow: $box-shadow;
+        margin: 8px 0px;
 
-    & .news-date {
-        font-weight: bold;
+        & .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            & .score {
+                font-weight: bold;
+                padding: 4px 12px;
+                border-radius: 8px;
+                border: 1px solid blue;
+                color: blue;
+            }
+
+            & .type {
+                padding: 4px 12px;
+                background: green;
+                border-radius: 8px;
+                color: white;
+                text-transform: capitalize;
+            }
+        }
+
+        & .title {
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        & .author {
+            color: gray;
+            font-size: 0.8rem;
+        }
+
+        & .card-footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            & .link-btn {
+                border: none;
+                background: gray;
+                border-radius: 8px;
+                padding: 4px 8px;
+                text-decoration: none;
+                box-shadow: $box-shadow;
+                & a {
+                    text-decoration: none;
+                    color: white;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }
 
-button {
+.btn {
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: 600;

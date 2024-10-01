@@ -1,19 +1,16 @@
 import axios from 'axios';
 
 const fetchNews = async () => {
-    return await axios
-        .get('https://hacker-news.firebaseio.com/v0/newstories.json')
-        .then((res) => res.data.slice(0, 10))
-        .then((res) => fetchSingleStory(res));
-};
-
-const fetchSingleStory = async (stories) => {
-    const storyPromises = stories.map(
-        async (id) =>
-            await axios
-                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-                .then((res) => res.data)
+    const response = await axios.get(
+        'https://hacker-news.firebaseio.com/v0/newstories.json'
     );
+    const storyIds = response.data.slice(0, 10);
+    const storyPromises = storyIds.map(async (id) => {
+        const storyResponse = await axios.get(
+            `https://hacker-news.firebaseio.com/v0/item/${id}.json`
+        );
+        return storyResponse.data;
+    });
     return Promise.all(storyPromises);
 };
 
