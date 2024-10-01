@@ -1,19 +1,20 @@
 import axios from 'axios';
 
-const fetchNews = async (count) => {
+const fetchNews = async () => {
     return await axios
         .get('https://hacker-news.firebaseio.com/v0/newstories.json')
-        .then((res) => res.data.slice(count ? count : 0, count ? count : 10))
+        .then((res) => res.data.slice(0, 10))
         .then((res) => fetchSingleStory(res));
 };
 
 const fetchSingleStory = async (stories) => {
-    return stories.map(
+    const storyPromises = stories.map(
         async (id) =>
             await axios
-                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json `)
-                .then((res) => console.log(res))
+                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+                .then((res) => res.data)
     );
+    return Promise.all(storyPromises);
 };
 
 export default fetchNews;
