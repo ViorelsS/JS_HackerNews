@@ -146,6 +146,11 @@ body {
         border-radius: 16px;
         border: none;
     }
+
+    .btn:hover {
+        cursor: pointer;
+        background: rgb(29, 29, 29);
+    }
 }
 
 @media screen and (min-width: 320px) {
