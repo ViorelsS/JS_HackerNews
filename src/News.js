@@ -1,6 +1,8 @@
 import axios from 'axios';
 import NewsItem from './NewsItem';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+
+const API_BASE_URL = process.env.API_BASE_URL;
 
 class News {
     constructor(containerId) {
@@ -12,13 +14,13 @@ class News {
 
     async loadInitialStoryIds() {
         return await axios
-            .get('https://hacker-news.firebaseio.com/v0/newstories.json')
+            .get(`${API_BASE_URL}/newstories.json`)
             .then((res) => (this.storyIds = res.data));
     }
 
     async loadMoreStoryIds(count) {
         const newStoryIds = await axios
-            .get('https://hacker-news.firebaseio.com/v0/newstories.json')
+            .get(`${API_BASE_URL}/newstories.json`)
             .then((res) => res.data.slice(0, count));
         this.storyIds = [...this.storyIds, ...newStoryIds];
     }
@@ -31,7 +33,7 @@ class News {
 
         const items = await this.fetchNews(this.counter, 10);
         items.forEach((itemData) => {
-            if (_.isEmpty(itemData.title)) {
+            if (isEmpty(itemData.title)) {
                 this.invalidTitleCount++;
                 return;
             }
@@ -46,7 +48,7 @@ class News {
         const storyIds = this.storyIds.slice(start, start + limit);
         const storyPromises = storyIds.map(async (id) => {
             return await axios
-                .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+                .get(`${API_BASE_URL}/item/${id}.json`)
                 .then((res) => res.data);
         });
         return Promise.all(storyPromises);

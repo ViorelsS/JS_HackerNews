@@ -1,7 +1,9 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -69,5 +71,39 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
+        new CompressionPlugin({
+            filename: '[path][base].gz',
+            algorithm: 'gzip',
+            test: /\.(js|css)$/,
+            threshold: 10240,
+            minRatio: 0.8,
+        }),
+        new Dotenv(),
     ],
+    performance: {
+        maxAssetSize: 512000, // 500 KiB
+        maxEntrypointSize: 512000, // 500 KiB
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            minSize: 20000,
+            maxSize: 90000,
+            minChunks: 1,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            automaticNameDelimiter: '~',
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+    },
 };
