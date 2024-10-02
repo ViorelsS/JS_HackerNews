@@ -1,11 +1,13 @@
 import axios from 'axios';
 import NewsItem from './NewsItem';
+import _ from 'lodash';
 
 class News {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         this.counter = 0;
         this.storyIds = [];
+        this.invalidTitleCount = 0;
     }
 
     async loadInitialStoryIds() {
@@ -22,12 +24,17 @@ class News {
     }
 
     async displayNews() {
-        if (this.counter >= 500) {
+        if (this.counter >= 500 || this.invalidTitleCount >= 500) {
             await this.loadMoreStoryIds(500);
+            this.invalidTitleCount = 0;
         }
 
         const items = await this.fetchNews(this.counter, 10);
         items.forEach((itemData) => {
+            if (_.isEmpty(itemData.title)) {
+                this.invalidTitleCount++;
+                return;
+            }
             const newsItem = new NewsItem(itemData);
             const newsCard = newsItem.createCard();
             this.container.appendChild(newsCard);
