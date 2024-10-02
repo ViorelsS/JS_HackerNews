@@ -1,4 +1,5 @@
 import linkBtnIcon from './assets/img/right-icon.png';
+import _ from 'lodash';
 
 class NewsItem {
     constructor({ by, time, title, type, score, url }) {
@@ -41,10 +42,13 @@ class NewsItem {
 
         const link = document.createElement('a');
         link.href = this.url;
-        link.innerHTML = 'More ';
+        link.innerHTML = _.toUpper('more ');
+        link.setAttribute('aria-label', `Read more about ${this.title}`);
 
         const img = document.createElement('img');
         img.src = linkBtnIcon;
+        img.alt = 'left-arrow-icon';
+        img.loading = 'lazy';
 
         linkBtn.appendChild(link);
         linkBtn.appendChild(img);

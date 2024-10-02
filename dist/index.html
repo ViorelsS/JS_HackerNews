@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Simple web app to check the latest tech news. Made by @ViorelsS"
+        />
 
         <link
             rel="apple-touch-icon"
@@ -34,16 +38,23 @@
             content="./assets/favicon/browserconfig.xml"
         />
         <meta name="theme-color" content="#ffffff" />
+        <meta property="og:title" content="HackerNews by @ViorelsS" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://js-hackernews.netlify.app/" />
+        <meta
+            property="og:image"
+            content="https://js-hackernews.netlify.app/preview.png"
+        />
         <title>HackerNews</title>
-    <script defer src="bundle.a68ca3b804b986884e7a.js"></script></head>
+    <script defer src="bundle.cd14e078442b398c6eaa.js"></script></head>
     <body>
         <div class="container">
             <div class="header">
-                <img id="newsImg" alt="" />
+                <img id="newsIcon" alt="news-icon" loading="lazy" />
                 <h1>Your daily tech news</h1>
             </div>
             <div id="news" class="news"></div>
-            <button id="newsBtn" class="btn">MORE NEWS</button>
+            <button id="newsBtn" class="btn">Load more</button>
         </div>
     </body>
 </html>
