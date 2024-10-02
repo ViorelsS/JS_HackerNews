@@ -2,100 +2,272 @@
 
 body {
     height: 100vh;
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: $soft-white;
+    background-color: $soft-gray;
+    padding-top: 44px;
 }
 
-h1 {
-    color: red;
-    font-weight: bold;
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    background: $soft-white;
+    box-shadow: $box-shadow;
+    z-index: 10;
+
+    & img {
+        max-height: 12vw;
+        padding-right: 4px;
+    }
+
+    & h1 {
+        font-size: 12vw;
+        text-transform: uppercase;
+        font-family: 'VT323', monospace;
+    }
 }
 
 .news {
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    width: 100%;
+    padding: 8px;
 
-    & .news-item {
-        background: white;
+    .news-item {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        padding: 20px;
-        border-radius: 16px;
-        max-width: 400px;
+        background: $soft-white;
+        margin-bottom: 12px;
+        padding: 12px;
         box-shadow: $box-shadow;
-        margin: 8px 0px;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%;
 
-        & .card-header {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        .card-header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+            gap: 8px;
 
-            & .score {
-                font-weight: bold;
-                padding: 4px 12px;
+            .score,
+            .type {
+                width: 100%;
+                padding: 4px 8px;
                 border-radius: 8px;
-                border: 1px solid blue;
-                color: blue;
+                border: 1px solid rgb(180, 180, 180);
+                text-transform: uppercase;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
-            & .type {
-                padding: 4px 12px;
-                background: green;
-                border-radius: 8px;
-                color: white;
-                text-transform: capitalize;
+            .score {
+                color: rgb(122, 122, 122);
             }
         }
 
-        & .title {
-            font-weight: 600;
-            font-size: 1.3rem;
-        }
-
-        & .author {
+        .date {
+            font-size: 0.7rem;
             color: gray;
-            font-size: 0.8rem;
         }
 
-        & .card-footer {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+        .title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
 
-            & .link-btn {
+        .author {
+            color: gray;
+            font-size: 0.7rem;
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .link-btn {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: rgb(124, 124, 124);
                 border: none;
-                background: gray;
+                box-shadow: $box-shadow;
                 border-radius: 8px;
                 padding: 4px 8px;
-                text-decoration: none;
-                box-shadow: $box-shadow;
-                & a {
+                flex: 1;
+                text-transform: uppercase;
+
+                a {
+                    font-size: 0.8rem;
                     text-decoration: none;
                     color: white;
                     font-weight: bold;
+                }
+
+                img {
+                    height: 16px;
+                    filter: invert(100%) brightness(200%);
                 }
             }
         }
     }
 }
 
-.btn {
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-weight: 600;
-    background: black;
-    color: white;
-    padding: 16px 20px;
-    border-radius: 16px;
-    border: none;
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .btn {
+        margin: 8px;
+        margin-top: -8px;
+        text-transform: uppercase;
+        font-weight: 600;
+        background: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 16px;
+        border: none;
+    }
 }
 
-button:hover {
-    background: #2b2b2b;
-    cursor: pointer;
+@media screen and (min-width: 320px) {
+    body {
+        padding-top: 6vw;
+    }
+
+    .header {
+        img {
+            height: 12vw;
+        }
+
+        h1 {
+            font-size: 9vw;
+        }
+    }
+
+    .news {
+        .news-item {
+            .card-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .score,
+                .type {
+                    width: auto;
+                    font-size: 0.8rem;
+                }
+            }
+
+            .date {
+                font-size: 0.8rem;
+            }
+
+            .title {
+                font-size: 1.3rem;
+            }
+
+            .card-footer {
+                padding-top: 8px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                .author {
+                    font-size: 0.8rem;
+                }
+
+                .link-btn {
+                    width: auto;
+                    padding: 8px 12px;
+                    padding-right: 4px;
+                    flex: 0;
+
+                    a {
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .container {
+        padding: 2rem 0;
+        .btn {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+@media screen and (min-width: 390px) {
+    body {
+        padding-top: 8vw;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .header {
+        display: flex;
+        justify-content: center;
+        img {
+            height: 6vw;
+        }
+
+        h1 {
+            font-size: 6vw;
+        }
+    }
+
+    body {
+        padding-top: 4vw;
+    }
+
+    .news {
+        width: 72vw;
+        padding: 8px 32px;
+    }
+}
+
+@media screen and (min-width: 920px) {
+    .news {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        padding-top: 3vw;
+    }
+
+    .header {
+        img {
+            height: 4vw;
+        }
+
+        h1 {
+            font-size: 4vw;
+        }
+    }
 }

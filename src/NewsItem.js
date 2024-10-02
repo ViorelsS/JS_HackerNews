@@ -1,3 +1,5 @@
+import linkBtnIcon from './assets/img/right-icon.png';
+
 class NewsItem {
     constructor({ by, time, title, type, score, url }) {
         this.author = by;
@@ -36,7 +38,16 @@ class NewsItem {
 
         const linkBtn = document.createElement('button');
         linkBtn.classList.add('link-btn');
-        linkBtn.innerHTML = `<a href=${this.url}>See more...</a>`;
+
+        const link = document.createElement('a');
+        link.href = this.url;
+        link.innerHTML = 'More ';
+
+        const img = document.createElement('img');
+        img.src = linkBtnIcon;
+
+        linkBtn.appendChild(link);
+        linkBtn.appendChild(img);
 
         cardHeader.appendChild(score);
         cardHeader.appendChild(type);
@@ -47,18 +58,18 @@ class NewsItem {
 
         const author = document.createElement('p');
         author.classList.add('author');
-        author.innerHTML = `Written by: ${this.author}`;
+        author.innerHTML = `Written by: <strong>${this.author}</strong>`;
 
         const date = document.createElement('p');
         date.classList.add('date');
         date.innerHTML = this.formatDate();
 
-        cardFooter.append(date);
+        cardFooter.append(author);
         cardFooter.append(linkBtn);
 
         card.appendChild(cardHeader);
+        card.append(date);
         card.appendChild(cardTitle);
-        card.appendChild(author);
         card.appendChild(cardFooter);
 
         return card;

@@ -1,5 +1,5 @@
 import './assets/styles/main.scss';
-import icon from './assets/news.png';
+import icon from './assets/img/news-icon.png';
 import News from './News';
 
 const newsImg = document.querySelector('#newsImg');

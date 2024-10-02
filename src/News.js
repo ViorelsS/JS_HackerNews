@@ -14,7 +14,18 @@ class News {
             .then((res) => (this.storyIds = res.data));
     }
 
+    async loadMoreStoryIds(count) {
+        const newStoryIds = await axios
+            .get('https://hacker-news.firebaseio.com/v0/newstories.json')
+            .then((res) => res.data.slice(0, count));
+        this.storyIds = [...this.storyIds, ...newStoryIds];
+    }
+
     async displayNews() {
+        if (this.counter >= 500) {
+            await this.loadMoreStoryIds(500);
+        }
+
         const items = await this.fetchNews(this.counter, 10);
         items.forEach((itemData) => {
             const newsItem = new NewsItem(itemData);
