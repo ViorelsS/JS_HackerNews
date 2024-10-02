@@ -29,7 +29,7 @@ The project is deployed using Netlify and can be accessed [here](https://js-hack
 ## 📁 Project Structure
 
 ```bash
-dist/
+dist/npm install mini-css-extract-plugin --save-dev
   ├── index.html
   ├── bundle.[contenthash].js
   ├── assets/
