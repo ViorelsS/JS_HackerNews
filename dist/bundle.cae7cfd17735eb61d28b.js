@@ -207,16 +207,31 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 var NewsItem = /*#__PURE__*/function () {
-  function NewsItem(data) {
+  function NewsItem(_ref) {
+    var by = _ref.by,
+      time = _ref.time,
+      title = _ref.title,
+      type = _ref.type,
+      score = _ref.score,
+      url = _ref.url;
     _classCallCheck(this, NewsItem);
-    this.data = data;
-    this.title = lodash__WEBPACK_IMPORTED_MODULE_1___default().defaultTo(data.title, null);
-    this.url = data.url;
-    this.score = data.score;
-    this.type = data.type;
-    this.author = data.by;
+    this.author = by;
+    this.time = new Date(time * 1000);
+    this.title = title;
+    this.type = type;
+    this.score = score;
+    this.url = url;
   }
   return _createClass(NewsItem, [{
+    key: "formatDate",
+    value: function formatDate() {
+      return this.time.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+  }, {
     key: "createCard",
     value: function createCard() {
       if (!this.title) {
@@ -254,11 +269,15 @@ var NewsItem = /*#__PURE__*/function () {
       var author = document.createElement('p');
       author.classList.add('author');
       author.innerHTML = "Written by: <strong>".concat(this.author, "</strong>");
+      var date = document.createElement('p');
+      date.classList.add('date');
+      date.innerHTML = this.formatDate();
+      cardFooter.append(author);
+      cardFooter.append(linkBtn);
       card.appendChild(cardHeader);
+      card.append(date);
       card.appendChild(cardTitle);
-      card.appendChild(author);
       card.appendChild(cardFooter);
-      cardFooter.appendChild(linkBtn);
       return card;
     }
   }]);
@@ -23185,4 +23204,4 @@ initializeNews();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.db3429aba18ce75873fb.js.map
+//# sourceMappingURL=bundle.cae7cfd17735eb61d28b.js.map

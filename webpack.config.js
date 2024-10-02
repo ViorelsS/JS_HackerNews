@@ -59,6 +59,10 @@ module.exports = {
                     from: 'src/assets/img/preview.png',
                     to: '.',
                 },
+                {
+                    from: 'src/assets/img/og-preview.png',
+                    to: '.',
+                },
             ],
         }),
     ],
