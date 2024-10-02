@@ -24,12 +24,12 @@ The project is deployed using Netlify and can be accessed [here](https://js-hack
 -   **Webpack:** For bundling the project, managing assets, and local development support.
 -   **Axios:** For making HTTP requests to the Hacker News API.
 -   **Babel:** To ensure cross-browser compatibility with modern JavaScript code.
--   **Lodash:** For data formatting and handling cases where the title is null or undefined.
+-   **Lodash:** For data formatting and handling cases where the title is null or undefined. If a story has no title, it is removed without affecting the overall loading of other stories. Therefore, in the grid view (for widths from 760px onwards), users might occasionally see the right-hand card missing.
 
 ## 📁 Project Structure
 
 ```bash
-dist/npm install mini-css-extract-plugin --save-dev
+dist/
   ├── index.html
   ├── bundle.[contenthash].js
   ├── assets/
@@ -105,7 +105,7 @@ The `News` class handles fetching and displaying the news. It uses Axios to make
 
 ### `src/NewsItem.js`
 
-The `NewsItem` class represents a single news article. This class is responsible for creating the DOM elements for each article, including the title, link, and other relevant information. It uses Lodash to format the data and handle cases where the title is null or undefined, ensuring that no titleless news articles are displayed.
+The `NewsItem` class represents a single news article. This class is responsible for creating the DOM elements for each article, including the title, link, and other relevant information. It uses Lodash to format the data and handle cases where the title is null or undefined, ensuring that no titleless news articles are displayed. If a story has no title, it is removed from the grid without affecting the loading of other stories. In grid view (for screen widths from 760px onwards), users might occasionally see the right-hand card missing due to this filtering.
 
 ### `src/assets/styles/main.scss`
 
