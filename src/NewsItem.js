@@ -20,6 +20,10 @@ class NewsItem {
     }
 
     createCard() {
+        if (!this.title) {
+            return null;
+        }
+
         const card = document.createElement('div');
         card.classList.add('news-item');
 

@@ -12,8 +12,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _NewsItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewsItem */ "./src/NewsItem.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -31,12 +33,14 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 var News = /*#__PURE__*/function () {
   function News(containerId) {
     _classCallCheck(this, News);
     this.container = document.getElementById(containerId);
     this.counter = 0;
     this.storyIds = [];
+    this.invalidTitleCount = 0;
   }
   return _createClass(News, [{
     key: "loadInitialStoryIds",
@@ -47,7 +51,7 @@ var News = /*#__PURE__*/function () {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('https://hacker-news.firebaseio.com/v0/newstories.json').then(function (res) {
+              return axios__WEBPACK_IMPORTED_MODULE_2__["default"].get('https://hacker-news.firebaseio.com/v0/newstories.json').then(function (res) {
                 return _this.storyIds = res.data;
               });
             case 2:
@@ -72,7 +76,7 @@ var News = /*#__PURE__*/function () {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('https://hacker-news.firebaseio.com/v0/newstories.json').then(function (res) {
+              return axios__WEBPACK_IMPORTED_MODULE_2__["default"].get('https://hacker-news.firebaseio.com/v0/newstories.json').then(function (res) {
                 return res.data.slice(0, count);
               });
             case 2:
@@ -98,24 +102,30 @@ var News = /*#__PURE__*/function () {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              if (!(this.counter >= 500)) {
-                _context3.next = 3;
+              if (!(this.counter >= 500 || this.invalidTitleCount >= 500)) {
+                _context3.next = 4;
                 break;
               }
               _context3.next = 3;
               return this.loadMoreStoryIds(500);
             case 3:
-              _context3.next = 5;
+              this.invalidTitleCount = 0;
+            case 4:
+              _context3.next = 6;
               return this.fetchNews(this.counter, 10);
-            case 5:
+            case 6:
               items = _context3.sent;
               items.forEach(function (itemData) {
+                if (lodash__WEBPACK_IMPORTED_MODULE_1___default().isEmpty(itemData.title)) {
+                  _this2.invalidTitleCount++;
+                  return;
+                }
                 var newsItem = new _NewsItem__WEBPACK_IMPORTED_MODULE_0__["default"](itemData);
                 var newsCard = newsItem.createCard();
                 _this2.container.appendChild(newsCard);
               });
               this.counter += 10;
-            case 8:
+            case 9:
             case "end":
               return _context3.stop();
           }
@@ -141,7 +151,7 @@ var News = /*#__PURE__*/function () {
                     while (1) switch (_context4.prev = _context4.next) {
                       case 0:
                         _context4.next = 2;
-                        return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("https://hacker-news.firebaseio.com/v0/item/".concat(id, ".json")).then(function (res) {
+                        return axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("https://hacker-news.firebaseio.com/v0/item/".concat(id, ".json")).then(function (res) {
                           return res.data;
                         });
                       case 2:
@@ -197,33 +207,21 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 var NewsItem = /*#__PURE__*/function () {
-  function NewsItem(_ref) {
-    var by = _ref.by,
-      time = _ref.time,
-      title = _ref.title,
-      type = _ref.type,
-      score = _ref.score,
-      url = _ref.url;
+  function NewsItem(data) {
     _classCallCheck(this, NewsItem);
-    this.author = by;
-    this.time = new Date(time * 1000);
-    this.title = title;
-    this.type = type;
-    this.score = score;
-    this.url = url;
+    this.data = data;
+    this.title = lodash__WEBPACK_IMPORTED_MODULE_1___default().defaultTo(data.title, null);
+    this.url = data.url;
+    this.score = data.score;
+    this.type = data.type;
+    this.author = data.by;
   }
   return _createClass(NewsItem, [{
-    key: "formatDate",
-    value: function formatDate() {
-      return this.time.toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-      });
-    }
-  }, {
     key: "createCard",
     value: function createCard() {
+      if (!this.title) {
+        return null;
+      }
       var card = document.createElement('div');
       card.classList.add('news-item');
       var cardHeader = document.createElement('div');
@@ -256,15 +254,11 @@ var NewsItem = /*#__PURE__*/function () {
       var author = document.createElement('p');
       author.classList.add('author');
       author.innerHTML = "Written by: <strong>".concat(this.author, "</strong>");
-      var date = document.createElement('p');
-      date.classList.add('date');
-      date.innerHTML = this.formatDate();
-      cardFooter.append(author);
-      cardFooter.append(linkBtn);
       card.appendChild(cardHeader);
-      card.append(date);
       card.appendChild(cardTitle);
+      card.appendChild(author);
       card.appendChild(cardFooter);
+      cardFooter.appendChild(linkBtn);
       return card;
     }
   }]);
@@ -23148,9 +23142,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 
 
-
-// TODO: lodash
-
 var newsIcon = document.querySelector('#newsIcon');
 newsIcon.src = _assets_img_news_icon_png__WEBPACK_IMPORTED_MODULE_1__;
 newsIcon.loading = 'lazy';
@@ -23194,4 +23185,4 @@ initializeNews();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.cd14e078442b398c6eaa.js.map
+//# sourceMappingURL=bundle.db3429aba18ce75873fb.js.map
